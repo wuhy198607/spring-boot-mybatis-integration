@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${jdbc.url}?useUnicode=true&amp;characterEncoding=UTF8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;useSSL=false&amp;useServerPrepStmts=true"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="initialSize" value="${jdbc.initialSize}"/>
+        <property name="maxActive" value="${jdbc.maxActive}"/>
+        <property name="minIdle" value="${jdbc.initialSize}"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="com.example.entity"/>
+        <property name="mapperLocations" value="classpath*:mapper/UserMapper.xml"/>
+        <property name="vfs" value="org.mybatis.spring.boot.autoconfigure.SpringBootVFS"/>
+        <!--<property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>-->
+    </bean>
+
+    <!--<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer" >-->
+        <!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
+        <!--<property name="basePackage" value="com.example.dao"/>-->
+    <!--</bean>-->
+    <!--<mybatis:scan base-package="com.example.dao" factory-ref="sqlSessionFactory"/>-->
+
+</beans>
